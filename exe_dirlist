@@ -3,8 +3,7 @@
 #VAR
 DIRIN=$1
 DIROUT=$2
-RESO="300x"
-GRESO="900x"
+GRESO=$3
 
 mkdir $DIROUT
 OUT=$DIROUT/index.html
@@ -82,10 +81,6 @@ do
 	echo "[FILE] : "$FILE" <br>" >> $OUT
 
 done
-
-
-
-
 
 
 
