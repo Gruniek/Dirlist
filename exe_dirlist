@@ -1,0 +1,93 @@
+#!/bin/bash
+
+#VAR
+DIRIN=$1
+DIROUT=$2
+RESO="300x"
+GRESO="900x"
+
+mkdir $DIROUT
+OUT=$DIROUT/index.html
+
+
+echo "[BACKUP LIST]" >> $OUT
+echo "<br><br>" >> $OUT
+
+
+echo "---DIR---"
+echo "<fieldset><legend>DIRECTORY</legend>" >> $OUT
+
+cd $DIRIN
+for DIR in $(ls -d */)
+do
+	echo $DIR
+	echo  "<a href=\"$DIR\">[DIR] : "$DIR"</a><br>" >> $OUT
+	mkdir $DIROUT/$name/$DIR
+	exe_dirlist $DIRIN/$DIR $DIROUT/$DIR
+done
+echo "</fieldset>" >> $OUT
+
+echo "<br><br>" >> $OUT
+
+
+
+
+echo "---IMG---"
+echo "<fieldset><legend>IMAGES</legend>" >> $OUT
+
+for FILE in $(ls -p $DIRIN | grep -v /);
+do
+	img=${FILE##*.}
+	if [ $img = jpg ] || [ $img = JPG ] || [ $img = png ] || [ $img = PNG ] 
+	then
+        echo "RESIZE IMG $FILE"
+        cp $FILE $DIROUT
+		mogrify -resize $GRESO $DIROUT$FILE
+		echo "<a href='$FILE'><img src='$FILE' height='300'></a>" >> $OUT
+    fi
+
+done
+echo "</fieldset>" >> $OUT
+
+echo "<br><br>" >> $OUT
+
+
+echo "---CR2 RAW---"
+echo "<fieldset><legend>RAW IMAGES</legend>" >> $OUT
+
+for FILE in $(ls -p $DIRIN | grep -v /);
+do
+    name=${FILE%.*}
+	ext=${FILE##*.}
+	if [ $ext = cr2 ] || [ $ext = CR2 ] 
+	then
+        echo "RAW IMG $FILE"
+        cp $FILE $DIROUT$FILE.cr2
+        ufraw-batch --out-type jpg $DIROUT$FILE.cr2
+		mogrify -resize $GRESO $DIROUT$name.cr2.jpg
+        rm $DIROUT$FILE.cr2
+		echo "<a href='$name.cr2.jpg'><img src='$name.cr2.jpg' height='300'></a>" >> $OUT
+    fi
+
+done
+echo "</fieldset>" >> $OUT
+echo "<br><br>" >> $OUT
+
+
+
+echo "---FILE---"
+for FILE in $(ls -p $DIRIN | grep -v /);
+do
+	echo $FILE
+	echo "[FILE] : "$FILE" <br>" >> $OUT
+
+done
+
+
+
+
+
+
+
+
+echo "---END---"
