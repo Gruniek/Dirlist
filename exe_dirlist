@@ -20,6 +20,7 @@ echo " DIRECTORY SIZE = $tot <br><br>" >> $OUT
 
 echo "</fieldset>" >> $OUT
 
+echo "<br><br>" >> $OUT
 
 echo "<fieldset><legend>DIRECTORY</legend>" >> $OUT
 
