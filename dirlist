@@ -1,0 +1,20 @@
+#!/bin/bash
+# imagemagick ufraw-batch
+#VAR
+DIRIN=$1
+DIROUT=$2
+PROJET=$3
+RESO="300x"
+GRESO="900x"
+
+rm -rf $DIROUT/$PROJET
+mkdir $DIROUT/$PROJET
+OUT=$DIROUT/$PROJET/index.html
+
+exe_dirlist $DIRIN $DIROUT/$PROJET/
+
+
+zip -r $DIROUT/$PROJET.zip $DIROUT/$PROJET
+
+
+echo "--- DIRLIST END---"
