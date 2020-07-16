@@ -2,9 +2,6 @@
 # imagemagick ufraw-batch
 #VAR
 
-IMG_RESOLUTION="900x"
-
-
 DIRIN=$1
 DIROUT=$2
 PROJET=$3
@@ -13,7 +10,11 @@ rm -rf $DIROUT/$PROJET
 mkdir $DIROUT/$PROJET
 OUT=$DIROUT/$PROJET/index.html
 
-exe_dirlist $DIRIN $DIROUT/$PROJET/ $IMG_RESOLUTION
+size=`du -sh $DIRIN`
+tot=`echo $size | cut -d' ' -f1`
+echo " DIRECTORY SIZE = $tot <br><br>" >> $OUT
+
+exe_dirlist $DIRIN $DIROUT/$PROJET/ 
 
 
 zip -r $DIROUT/$PROJET.zip $DIROUT/$PROJET
